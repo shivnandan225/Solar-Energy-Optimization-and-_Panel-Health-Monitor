@@ -1,6 +1,29 @@
+Live demo: **Not deployed yet** — deploy this app on [Streamlit Community Cloud](https://share.streamlit.io/) to get its public URL.
+
 # Sunwise — Solar energy optimization and panel care
 
-Sunwise is a responsive Streamlit prototype for solar owners. It combines a photo-based **visual documentation check**, a safety-first troubleshooting guide, a generation estimator, a manual equipment-reading checker, and an in-session service-report form in a three-screen website.
+Sunwise is a Streamlit prototype that helps solar owners document visible panel concerns, understand common symptoms, estimate household solar use, watch generation trends, check manually entered equipment readings, and prepare a service report.
+
+## Project prompt
+
+> Build a polished, mobile-friendly solar energy optimization and panel-care website with three main screens: (1) a welcoming home page with beautiful solar imagery, (2) a solar-care workspace, and (3) an educational page about solar energy's benefits. Use a dark background by default, provide a manual light-mode switch, and make the main heading bold and prominent.
+>
+> In the solar-care workspace, include a photo upload that helps users document visible panel concerns without falsely claiming to diagnose internal faults; a conversational guide for common solar problems and safe next steps; an energy optimizer that estimates solar generation, household self-use, grid electricity needs, and potential bill offset; a generation-trend monitor that compares recent readings with the system's own baseline; a manual equipment-reading checker; and a service-report form with a way to call a technician. Explain which features are demonstrations and what integrations are needed for real AI, hardware monitoring, persistent reports, and technician dispatch.
+>
+> Prioritize safety and transparency: never tell users that an ordinary photo proves a panel is electrically healthy; direct users away from live or damaged equipment; and clearly label estimates, manually supplied readings, temporary data, and unconnected services.
+
+## Features
+
+- **Home:** welcome message, solar photography, and a direct route to the solar tools.
+- **Visual photo screening:** checks image dimensions, brightness, and contrast; lets users record their own observations and download technician notes. It does not perform AI defect recognition or certify internal panel health.
+- **Solar guide:** a local, rule-based troubleshooting assistant for common symptoms. It is not an LLM-powered chatbot or a substitute for a licensed solar professional.
+- **Energy planner:** estimates generation from system size, peak sun hours, efficiency, and shading; estimates household solar use and grid imports using demand and use timing; and calculates a potential bill offset from the user-entered electricity tariff.
+- **Performance watch:** compares the latest three daily-generation values against the previous three and flags a large drop. Weather is not accounted for, so this is a prompt to investigate—not a fault diagnosis.
+- **Equipment check:** calculates DC power from manually entered voltage and current and compares voltage with the user-entered reference. No inverter, sensor, or hardware is connected.
+- **Service report:** collects a problem description and optional photo, keeps records only in the current Streamlit session, and offers a CSV download. Reports are not delivered to a technician.
+- **Technician call link:** turns a phone number entered by the user into a call link. No service provider directory is connected.
+- **Why solar:** explains potential benefits and safe, practical maintenance. Real-world savings and emissions depend on location, weather, tariffs, and the electricity grid.
+- **Theme:** dark by default, with a manual light-mode switch.
 
 ## Run locally
 
@@ -9,46 +32,29 @@ py -m pip install -r requirements.txt
 py -m streamlit run app.py
 ```
 
-Open the local URL printed by Streamlit (normally `http://localhost:8501`). The interface starts in dark mode; use **Light mode** in the header to switch manually.
-
-## What is in the prototype
-
-- **Home:** full-width solar photography, welcome message, and direct entry to the tools.
-- **Solar care:** six tabs for photo screening, a troubleshooting chat guide, usage- and tariff-aware solar estimates, generation-trend monitoring, manual equipment checks, and service reports.
-- **Why solar:** benefits, maintenance guidance, and ideas for making each generated kilowatt-hour count.
-- **Photo screening:** checks whether an uploaded image is readable and lets the user label visible observations. It does **not** claim to identify internal cell, wiring, insulation, or electrical faults.
-- **Solar guide:** provides local, rule-based answers for common symptoms. It is not an AI model and is not a replacement for an electrician.
-- **Equipment check:** compares manually entered voltage against a user-provided reference and calculates voltage × current. No hardware is connected.
-- **Service reports:** stored only in Streamlit's per-user session memory; users can download the current session's report log. No technician receives the report automatically.
-- **Calling:** accepts a technician's phone number and creates a `tel:` link. Add a real provider's contact after deployment.
-- **Energy planner:** estimates generation, household solar use, grid imports, and a potential bill offset from user-entered system size, sun hours, efficiency, shade, household demand, use timing, and tariff. Emissions use an explicitly illustrative factor.
-- **Performance watch:** compares the latest three entered daily-generation readings with the previous three and flags a notable decline for follow-up. It cannot account for weather or diagnose a fault.
+Open the local URL printed by Streamlit, normally `http://localhost:8501`.
 
 ## Deploy on Streamlit Community Cloud
 
-1. Push this project to a GitHub repository.
-2. Sign in to [Streamlit Community Cloud](https://share.streamlit.io/) with GitHub and choose **Create app**.
-3. Select the repository and branch, set the main file path to `app.py`, then deploy.
-4. Share the app URL shown by Streamlit after deployment.
+The app source is in the public GitHub repository. To create a public live demo:
 
-The repository includes `requirements.txt` and `.streamlit/config.toml` for deployment. A public link is created by Streamlit Community Cloud after the owner authorizes deployment; it cannot be generated from a local prototype alone.
+1. Sign in at [Streamlit Community Cloud](https://share.streamlit.io/) and authorize access to GitHub.
+2. Select `shivnandan225/Solar-Energy-Optimization-and-_Panel-Health-Monitor`.
+3. Select the `shivnandan225-solar-energy-platform` branch.
+4. Set **Main file path** to `app.py` and deploy.
+5. After deployment succeeds, copy the app's public `*.streamlit.app` URL and replace the first line of this README with `Live demo: https://YOUR-APP.streamlit.app/`.
 
-## What is needed for a production-ready, more unique product
+The app URL is assigned by Streamlit during deployment; it cannot be safely guessed in advance. The current local preview at `http://localhost:8501` is only accessible on the developer's machine and is not a public demo.
 
-1. **Real panel diagnosis:** collect consented, expert-labelled visible and thermal images; train and validate a vision model across panel types, lighting, and climates. Add an IR/thermal camera or certified IV-curve testing to detect many issues that ordinary photos cannot reveal. Show confidence, uncertainty, and an escalation path; never label a panel safe based on a regular photo.
-2. **Actual AI assistant:** connect an LLM through a server-side API key, ground it in manufacturer manuals and local safety guidance, cite sources, and add emergency escalation. Store credentials in deployment secrets, not source code.
-3. **Hardware integration:** connect supported inverter/monitor APIs or an authenticated gateway, validate units and timestamps, and show live/history data with manufacturer-specific limits. Do not ask users to probe energized DC equipment.
-4. **Real report delivery:** add secure authentication, a database, image storage with retention controls, notifications, technician assignment, status tracking, and consent/privacy controls. Current reports are deliberately session-only.
-5. **Mechanic network and calling:** verify local providers, their service areas, availability, and qualifications; route users through a consent-based booking/call flow. The present `tel:` link uses a number the user enters.
-6. **Local accuracy:** use a location-aware weather source, local grid-emissions factors, utility tariffs, and installer-verified system details for trustworthy savings and generation estimates.
+## Making this production-ready
 
-### Hackathon differentiators to build next
+1. **Verified panel diagnostics:** collect consented, expert-labelled panel photos and thermal imagery. Train and evaluate a vision model across different panel types and conditions, show confidence and uncertainty, and refer suspected electrical faults for qualified inspection.
+2. **Real AI assistant:** connect an LLM through a server-side API key, ground answers in manufacturer manuals and local safety guidance, cite sources, and provide emergency escalation. Store secrets only in the deployment's secret manager.
+3. **Live hardware monitoring:** connect supported inverter APIs or a certified sensor gateway with authentication, timestamps, unit validation, and manufacturer-specific alert thresholds.
+4. **Persistent service reports:** add authentication, a secure database and image storage, retention controls, notifications, technician assignment, and request-status tracking. Obtain user consent before sharing contact details or photos.
+5. **Technician network:** verify local providers, coverage, and qualifications before enabling booking or dispatch.
+6. **Accurate optimization:** add location-aware weather forecasts, utility tariffs, actual inverter history, and local grid emissions factors.
 
-- A **solar passport** per installation: equipment, commissioning readings, photos, maintenance, generation history, and technician sign-offs.
-- A **weather-aware load-shifting coach** that suggests when to run flexible appliances using the next-day forecast, live production, and the user's tariff.
-- **Community fault mapping** with opt-in, anonymized service patterns to highlight recurring area-wide problems without exposing household data.
-- An **explainable reliability score** based on measured production and verified inspections—not a single uploaded photo—with a clear breakdown and confidence.
+## Safety and privacy
 
-## Safety and data notes
-
-This is a demonstration, not electrical equipment, medical advice, or a certified inspection. Do not touch, open, or attempt to repair live solar equipment. For smoke, fire, electric shock, sparks, or exposed wiring, stay away and contact emergency services or a licensed solar electrician. Do not upload private documents or sensitive personal information. Session reports are temporary and may disappear when the app session ends.
+This is an educational demonstration, not a certified inspection or electrical repair guide. Never open, touch, or attempt to repair live solar equipment. If there is smoke, fire, electric shock, sparks, or exposed wiring, stay away and contact emergency services or a licensed solar electrician. Do not upload sensitive personal information. Demo reports are held in session memory and may disappear when the session ends.
