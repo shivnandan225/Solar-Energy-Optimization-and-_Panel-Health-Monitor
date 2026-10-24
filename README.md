@@ -1,4 +1,4 @@
-Live demo: **Not deployed yet** — deploy this app on [Streamlit Community Cloud](https://share.streamlit.io/) to get its public URL.
+Live demo: [Open Sunwise](https://shivnandan225-solar-energy-optimization-and--panel--app-iuhuvv.streamlit.app/) — currently redirects unauthenticated visitors to Streamlit sign-in; public access is not yet confirmed.
 
 # Sunwise — Solar energy optimization and panel care
 
@@ -36,15 +36,15 @@ Open the local URL printed by Streamlit, normally `http://localhost:8501`.
 
 ## Deploy on Streamlit Community Cloud
 
-The app source is in the public GitHub repository. To create a public live demo:
+The app source is in the public GitHub repository. The Streamlit app URL above has been created, but currently redirects unauthenticated visitors to Streamlit sign-in. To make the demo publicly viewable, open the app in Streamlit Community Cloud and change its viewer access/visibility setting to **Everyone** (public), then verify it in a signed-out browser.
 
 1. Sign in at [Streamlit Community Cloud](https://share.streamlit.io/) and authorize access to GitHub.
 2. Select `shivnandan225/Solar-Energy-Optimization-and-_Panel-Health-Monitor`.
 3. Select the `shivnandan225-solar-energy-platform` branch.
 4. Set **Main file path** to `app.py` and deploy.
-5. After deployment succeeds, copy the app's public `*.streamlit.app` URL and replace the first line of this README with `Live demo: https://YOUR-APP.streamlit.app/`.
+5. After deployment succeeds, copy the app's `*.streamlit.app` URL into the first line of this README and set its viewer access to **Everyone**.
 
-The app URL is assigned by Streamlit during deployment; it cannot be safely guessed in advance. The current local preview at `http://localhost:8501` is only accessible on the developer's machine and is not a public demo.
+The current local preview at `http://localhost:8501` is only accessible on the developer's machine and is not a public demo. A `streamlit.app` URL alone does not guarantee public access; confirm the app's viewer-access setting in Streamlit Cloud.
 
 ## Making this production-ready
 
